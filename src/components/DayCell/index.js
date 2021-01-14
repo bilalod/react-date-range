@@ -10,12 +10,13 @@ class DayCell extends Component {
 
     this.state = {
       hover: false,
-      active: false,
+      active: false
     };
   }
 
   handleKeyEvent = event => {
-    const { day, onMouseDown, onMouseUp } = this.props;
+    const { rangeKey, day, onMouseDown, onMouseUp } = this.props;
+
     if ([13 /* space */, 32 /* enter */].includes(event.keyCode)) {
       if (event.type === 'keydown') onMouseDown(day);
       else onMouseUp(day);
@@ -66,7 +67,7 @@ class DayCell extends Component {
       isStartOfMonth,
       isEndOfMonth,
       disabled,
-      styles,
+      styles
     } = this.props;
 
     return classnames(styles.day, {
@@ -79,7 +80,7 @@ class DayCell extends Component {
       [styles.dayStartOfMonth]: isStartOfMonth,
       [styles.dayEndOfMonth]: isEndOfMonth,
       [styles.dayHovered]: this.state.hover,
-      [styles.dayActive]: this.state.active,
+      [styles.dayActive]: this.state.active
     });
   };
   renderPreviewPlaceholder = () => {
@@ -87,8 +88,7 @@ class DayCell extends Component {
     if (!preview) return null;
     const startDate = preview.startDate ? endOfDay(preview.startDate) : null;
     const endDate = preview.endDate ? startOfDay(preview.endDate) : null;
-    const isInRange =
-      (!startDate || isAfter(day, startDate)) && (!endDate || isBefore(day, endDate));
+    const isInRange = (!startDate || isAfter(day, startDate)) && (!endDate || isBefore(day, endDate));
     const isStartEdge = !isInRange && isSameDay(day, startDate);
     const isEndEdge = !isInRange && isSameDay(day, endDate);
     return (
@@ -96,19 +96,49 @@ class DayCell extends Component {
         className={classnames({
           [styles.dayStartPreview]: isStartEdge,
           [styles.dayInPreview]: isInRange,
-          [styles.dayEndPreview]: isEndEdge,
+          [styles.dayEndPreview]: isEndEdge
         })}
         style={{ color: preview.color }}
       />
     );
   };
+
+  tooltip = () => {
+    const { styles, ranges, day } = this.props;
+    const inRanges = ranges.reduce((result, range) => {
+      let startDate = range.startDate;
+      let endDate = range.endDate;
+      if (startDate && endDate && isBefore(endDate, startDate)) {
+        [startDate, endDate] = [endDate, startDate];
+      }
+      startDate = startDate ? endOfDay(startDate) : null;
+      endDate = endDate ? startOfDay(endDate) : null;
+      const isInRange = (!startDate || isAfter(day, startDate)) && (!endDate || isBefore(day, endDate));
+      const isStartEdge = !isInRange && isSameDay(day, startDate);
+      const isEndEdge = !isInRange && isSameDay(day, endDate);
+      if (isInRange || isStartEdge || isEndEdge) {
+        return [
+          ...result,
+          {
+            isInRange,
+            ...range
+          }
+        ];
+      }
+      return result;
+    }, []);
+
+    return inRanges.map(range => ({
+      color: range.color,
+      key: range.key
+    }));
+  };
+
   renderSelectionPlaceholders = () => {
     const { styles, ranges, day } = this.props;
     if (this.props.displayMode === 'date') {
       let isSelected = isSameDay(this.props.day, this.props.date);
-      return isSelected ? (
-        <span className={styles.selected} style={{ color: this.props.color }} />
-      ) : null;
+      return isSelected ? <span className={styles.selected} style={{ color: this.props.color }} /> : null;
     }
 
     const inRanges = ranges.reduce((result, range) => {
@@ -119,8 +149,7 @@ class DayCell extends Component {
       }
       startDate = startDate ? endOfDay(startDate) : null;
       endDate = endDate ? startOfDay(endDate) : null;
-      const isInRange =
-        (!startDate || isAfter(day, startDate)) && (!endDate || isBefore(day, endDate));
+      const isInRange = (!startDate || isAfter(day, startDate)) && (!endDate || isBefore(day, endDate));
       const isStartEdge = !isInRange && isSameDay(day, startDate);
       const isEndEdge = !isInRange && isSameDay(day, endDate);
       if (isInRange || isStartEdge || isEndEdge) {
@@ -130,8 +159,8 @@ class DayCell extends Component {
             isStartEdge,
             isEndEdge: isEndEdge,
             isInRange,
-            ...range,
-          },
+            ...range
+          }
         ];
       }
       return result;
@@ -143,15 +172,20 @@ class DayCell extends Component {
         className={classnames({
           [styles.startEdge]: range.isStartEdge,
           [styles.endEdge]: range.isEndEdge,
-          [styles.inRange]: range.isInRange,
+          [styles.inRange]: range.isInRange
         })}
         style={{ color: range.color || this.props.color }}
       />
     ));
   };
+
   render() {
+    const tooltipData = this.tooltip()[0];
+    console.log(tooltipData, 'test');
     return (
       <button
+        data-tip={tooltipData?.key}
+        data-background-color={tooltipData?.color}
         type="button"
         onMouseEnter={this.handleMouseEvent}
         onMouseLeave={this.handleMouseEvent}
@@ -164,7 +198,9 @@ class DayCell extends Component {
         onKeyUp={this.handleKeyEvent}
         className={this.getClassNames(this.props.styles)}
         {...(this.props.disabled || this.props.isPassive ? { tabIndex: -1 } : {})}
-        style={{ color: this.props.color }}>
+        style={{ color: this.props.color }}
+      >
+        {}
         {this.renderSelectionPlaceholders()}
         {this.renderPreviewPlaceholder()}
         <span className={this.props.styles.dayNumber}>
@@ -184,7 +220,7 @@ export const rangeShape = PropTypes.shape({
   key: PropTypes.string,
   autoFocus: PropTypes.bool,
   disabled: PropTypes.bool,
-  showDateDisplay: PropTypes.bool,
+  showDateDisplay: PropTypes.bool
 });
 
 DayCell.propTypes = {
@@ -195,7 +231,7 @@ DayCell.propTypes = {
   preview: PropTypes.shape({
     startDate: PropTypes.object,
     endDate: PropTypes.object,
-    color: PropTypes.string,
+    color: PropTypes.string
   }),
   onPreviewChange: PropTypes.func,
   previewColor: PropTypes.string,
@@ -212,7 +248,7 @@ DayCell.propTypes = {
   styles: PropTypes.object,
   onMouseDown: PropTypes.func,
   onMouseUp: PropTypes.func,
-  onMouseEnter: PropTypes.func,
+  onMouseEnter: PropTypes.func
 };
 
 export default DayCell;

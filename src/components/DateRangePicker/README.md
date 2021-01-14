@@ -64,17 +64,18 @@ const [state, setState] = useState({
   selection1: {
     startDate: addDays(new Date(), 1),
     endDate: null,
+
     key: 'selection1'
   },
   selection2: {
-    startDate: addDays(new Date(), 4),
+    startDate: addDays(new Date(), 5),
     endDate: addDays(new Date(), 8),
     key: 'selection2'
   },
   selection3: {
-    startDate: addDays(new Date(), 8),
-    endDate: addDays(new Date(), 10),
-    key: 'selection3',
+    startDate: addDays(new Date(), 6),
+    endDate: addDays(new Date(), 12),
+    key: 'selection33',
     autoFocus: false
   }
 });
