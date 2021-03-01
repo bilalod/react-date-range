@@ -14,7 +14,7 @@ class DayCell extends Component {
     };
   }
 
-  handleKeyEvent = event => {
+  handleKeyEvent = (event) => {
     const { rangeKey, day, onMouseDown, onMouseUp } = this.props;
 
     if ([13 /* space */, 32 /* enter */].includes(event.keyCode)) {
@@ -22,7 +22,7 @@ class DayCell extends Component {
       else onMouseUp(day);
     }
   };
-  handleMouseEvent = event => {
+  handleMouseEvent = (event) => {
     const { day, disabled, onPreviewChange, onMouseEnter, onMouseDown, onMouseUp } = this.props;
     const stateChanges = {};
     if (disabled) {
@@ -128,7 +128,7 @@ class DayCell extends Component {
       return result;
     }, []);
 
-    return inRanges.map(range => ({
+    return inRanges.map((range) => ({
       color: range.color,
       key: range.key
     }));
@@ -166,26 +166,27 @@ class DayCell extends Component {
       return result;
     }, []);
 
-    return inRanges.map((range, i) => (
-      <span
-        key={i}
-        className={classnames({
-          [styles.startEdge]: range.isStartEdge,
-          [styles.endEdge]: range.isEndEdge,
-          [styles.inRange]: range.isInRange
-        })}
-        style={{ color: range.color || this.props.color }}
-      />
-    ));
+    return inRanges.map((range, i) => {
+      return (
+        <span
+          key={i}
+          className={classnames({
+            [styles.startEdge]: range.isStartEdge,
+            [styles.endEdge]: range.isEndEdge,
+            [styles.inRange]: range.isInRange
+          })}
+          style={{ color: range.color || this.props.color }}
+        />
+      );
+    });
   };
 
   render() {
     const tooltipData = this.tooltip()[0];
-    console.log(tooltipData, 'test');
     return (
       <button
-        data-tip={tooltipData?.key}
-        data-background-color={tooltipData?.color}
+        data-tip={tooltipData?.key !== undefined ? `${tooltipData?.key}` : ``}
+        data-background-color={tooltipData?.key && tooltipData?.color}
         type="button"
         onMouseEnter={this.handleMouseEvent}
         onMouseLeave={this.handleMouseEvent}
@@ -200,7 +201,6 @@ class DayCell extends Component {
         {...(this.props.disabled || this.props.isPassive ? { tabIndex: -1 } : {})}
         style={{ color: this.props.color }}
       >
-        {}
         {this.renderSelectionPlaceholders()}
         {this.renderPreviewPlaceholder()}
         <span className={this.props.styles.dayNumber}>
