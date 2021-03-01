@@ -277,10 +277,9 @@ var DayCell = /*#__PURE__*/function (_Component) {
     key: "render",
     value: function render() {
       var tooltipData = this.tooltip()[0];
-      console.log(tooltipData, 'test');
       return /*#__PURE__*/_react["default"].createElement("button", _extends({
-        "data-tip": tooltipData === null || tooltipData === void 0 ? void 0 : tooltipData.key,
-        "data-background-color": tooltipData === null || tooltipData === void 0 ? void 0 : tooltipData.color,
+        "data-tip": (tooltipData === null || tooltipData === void 0 ? void 0 : tooltipData.key) !== undefined ? "".concat(tooltipData === null || tooltipData === void 0 ? void 0 : tooltipData.key) : "",
+        "data-background-color": (tooltipData === null || tooltipData === void 0 ? void 0 : tooltipData.key) && (tooltipData === null || tooltipData === void 0 ? void 0 : tooltipData.color),
         type: "button",
         onMouseEnter: this.handleMouseEvent,
         onMouseLeave: this.handleMouseEvent,
