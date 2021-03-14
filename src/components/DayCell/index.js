@@ -14,7 +14,7 @@ class DayCell extends Component {
     };
   }
 
-  handleKeyEvent = (event) => {
+  handleKeyEvent = event => {
     const { rangeKey, day, onMouseDown, onMouseUp } = this.props;
 
     if ([13 /* space */, 32 /* enter */].includes(event.keyCode)) {
@@ -22,7 +22,7 @@ class DayCell extends Component {
       else onMouseUp(day);
     }
   };
-  handleMouseEvent = (event) => {
+  handleMouseEvent = event => {
     const { day, disabled, onPreviewChange, onMouseEnter, onMouseDown, onMouseUp } = this.props;
     const stateChanges = {};
     if (disabled) {
@@ -128,10 +128,10 @@ class DayCell extends Component {
       return result;
     }, []);
 
-    return inRanges.map((range) => ({
+    return inRanges.map(range => ({
       color: range.color,
       title: range.title,
-      color: range.bgColor,
+      bgColor: range.bgColor,
       key: range.key
     }));
   };

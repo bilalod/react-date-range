@@ -204,12 +204,12 @@ var DayCell = /*#__PURE__*/function (_Component) {
         return result;
       }, []);
       return inRanges.map(function (range) {
-        var _ref2;
-
-        return _ref2 = {
+        return {
           color: range.color,
-          title: range.title
-        }, _defineProperty(_ref2, "color", range.bgColor), _defineProperty(_ref2, "key", range.key), _ref2;
+          title: range.title,
+          bgColor: range.bgColor,
+          key: range.key
+        };
       });
     });
 
@@ -234,9 +234,9 @@ var DayCell = /*#__PURE__*/function (_Component) {
         var endDate = range.endDate;
 
         if (startDate && endDate && (0, _dateFns.isBefore)(endDate, startDate)) {
-          var _ref3 = [endDate, startDate];
-          startDate = _ref3[0];
-          endDate = _ref3[1];
+          var _ref2 = [endDate, startDate];
+          startDate = _ref2[0];
+          endDate = _ref2[1];
         }
 
         startDate = startDate ? (0, _dateFns.endOfDay)(startDate) : null;
