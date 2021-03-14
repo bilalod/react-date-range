@@ -204,10 +204,12 @@ var DayCell = /*#__PURE__*/function (_Component) {
         return result;
       }, []);
       return inRanges.map(function (range) {
-        return {
+        var _ref2;
+
+        return _ref2 = {
           color: range.color,
-          key: range.key
-        };
+          title: range.title
+        }, _defineProperty(_ref2, "color", range.bgColor), _defineProperty(_ref2, "key", range.key), _ref2;
       });
     });
 
@@ -232,9 +234,9 @@ var DayCell = /*#__PURE__*/function (_Component) {
         var endDate = range.endDate;
 
         if (startDate && endDate && (0, _dateFns.isBefore)(endDate, startDate)) {
-          var _ref2 = [endDate, startDate];
-          startDate = _ref2[0];
-          endDate = _ref2[1];
+          var _ref3 = [endDate, startDate];
+          startDate = _ref3[0];
+          endDate = _ref3[1];
         }
 
         startDate = startDate ? (0, _dateFns.endOfDay)(startDate) : null;
@@ -278,8 +280,8 @@ var DayCell = /*#__PURE__*/function (_Component) {
     value: function render() {
       var tooltipData = this.tooltip()[0];
       return /*#__PURE__*/_react["default"].createElement("button", _extends({
-        "data-tip": (tooltipData === null || tooltipData === void 0 ? void 0 : tooltipData.key) !== undefined ? "".concat(tooltipData === null || tooltipData === void 0 ? void 0 : tooltipData.key) : "",
-        "data-background-color": (tooltipData === null || tooltipData === void 0 ? void 0 : tooltipData.key) && (tooltipData === null || tooltipData === void 0 ? void 0 : tooltipData.color),
+        "data-tip": (tooltipData === null || tooltipData === void 0 ? void 0 : tooltipData.title) !== undefined ? "".concat(tooltipData === null || tooltipData === void 0 ? void 0 : tooltipData.title) : "",
+        "data-background-color": (tooltipData === null || tooltipData === void 0 ? void 0 : tooltipData.key) && (tooltipData === null || tooltipData === void 0 ? void 0 : tooltipData.bgColor),
         type: "button",
         onMouseEnter: this.handleMouseEvent,
         onMouseLeave: this.handleMouseEvent,

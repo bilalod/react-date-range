@@ -130,6 +130,8 @@ class DayCell extends Component {
 
     return inRanges.map((range) => ({
       color: range.color,
+      title: range.title,
+      color: range.bgColor,
       key: range.key
     }));
   };
@@ -185,8 +187,8 @@ class DayCell extends Component {
     const tooltipData = this.tooltip()[0];
     return (
       <button
-        data-tip={tooltipData?.key !== undefined ? `${tooltipData?.key}` : ``}
-        data-background-color={tooltipData?.key && tooltipData?.color}
+        data-tip={tooltipData?.title !== undefined ? `${tooltipData?.title}` : ``}
+        data-background-color={tooltipData?.key && tooltipData?.bgColor}
         type="button"
         onMouseEnter={this.handleMouseEvent}
         onMouseLeave={this.handleMouseEvent}
